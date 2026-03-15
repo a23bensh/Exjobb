@@ -21,6 +21,28 @@ connection.connect((err) => {
   console.log('Ansluten till MySQL-databasen!');
 });
 
+// Hämta alla böcker
+app.get('/api/books', (req, res) => {
+  connection.query('SELECT * FROM books', (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Databasfel' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Hämta en bok via id
+app.get('/api/books/:id', (req, res) => {
+  connection.query('SELECT * FROM books WHERE id = ?', [req.params.id], (err, results) => {
+    if (err || results.length === 0) {
+      res.status(404).json({ error: 'Bok hittades inte' });
+      return;
+    }
+    res.json(results[0]);
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
