@@ -21,6 +21,11 @@ connection.connect((err) => {
   console.log('Ansluten till MySQL-databasen!');
 });
 
+// Route till index.html
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+
 // Hämta alla böcker
 app.get('/api/books', (req, res) => {
   connection.query('SELECT * FROM books', (err, results) => {
