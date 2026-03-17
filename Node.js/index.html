@@ -14,5 +14,27 @@
     <input type="text" id="searchbar" placeholder="Sök titel eller författare...">
     <button onclick="search()">Sök</button>
 
+    <div id="results"></div>
+
+    <script>
+        function search() {
+            const term = document.getElementById('searchbar').value;
+            fetch(`/api/books/search?q=${term}`)
+                .then(res => res.json())
+                .then(books => {
+                    const div = document.getElementById('results');
+                    div.innerHTML = '';
+                    books.forEach(book => {
+                        div.innerHTML += `
+                            <p>
+                                <strong>${book.title}</strong><br>
+                                by ${book.authors}
+                            </p>
+                        `;
+                    });
+                });
+        }
+    </script>
+
 </body>
 </html>

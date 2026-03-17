@@ -37,6 +37,20 @@ app.get('/api/books', (req, res) => {
   });
 });
 
+// Sökendpoint
+app.get('/api/books/search', (req, res) => {
+  const searchTerm = req.query.q || '';
+  const query = 'SELECT * FROM books WHERE title LIKE ? OR authors LIKE ?';
+  
+  connection.query(query, [`%${searchTerm}%`, `%${searchTerm}%`], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Databasfel' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
 // Hämta en bok via id
 app.get('/api/books/:id', (req, res) => {
   connection.query('SELECT * FROM books WHERE id = ?', [req.params.id], (err, results) => {
