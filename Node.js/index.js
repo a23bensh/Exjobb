@@ -51,6 +51,30 @@ app.get('/api/books/search', (req, res) => {
   });
 });
 
+// Bokdetaljer
+app.get('/books/:id', (req, res) => {
+  connection.query('SELECT * FROM books WHERE id = ?', [req.params.id], (err, results) => {
+    if (err || results.length === 0) {
+      res.send('Bok hittades inte');
+      return;
+    }
+    const book = results[0];
+    res.send(`
+      <html>
+        <body>
+          <h2>${book.title}</h2>
+          <p>by ${book.authors}</p>
+          <p><strong>Kategori:</strong> ${book.categories}</p>
+          <p><strong>År:</strong> ${book.published_year}</p>
+          <p><strong>Sidor:</strong> ${book.num_pages}</p>
+          <p><strong>Beskrivning:</strong> ${book.description}</p>
+          <button onclick="location.href='/'">Tillbaka</button>
+        </body>
+      </html>
+    `);
+  });
+});
+
 // Hämta en bok via id
 app.get('/api/books/:id', (req, res) => {
   connection.query('SELECT * FROM books WHERE id = ?', [req.params.id], (err, results) => {

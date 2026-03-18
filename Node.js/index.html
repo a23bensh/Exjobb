@@ -27,7 +27,7 @@
                     books.forEach(book => {
                         div.innerHTML += `
                             <p>
-                                <strong>${book.title}</strong><br>
+                                <a href="/books/${book.id}"><strong>${book.title}</strong></a><br>
                                 by ${book.authors}
                             </p>
                         `;
