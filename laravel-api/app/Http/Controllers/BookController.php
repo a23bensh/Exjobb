@@ -14,12 +14,12 @@ class BookController extends Controller
         return response()->json($books);
     }
 
-    // Hämta en specifik bok baserat på ID
-    public function show($id)
+    // Visa bok detaljer
+    public function details($id)
     {
         $book = Book::find($id);
         if ($book) {
-            return response()->json($book);
+            return view('book', compact('book'));
         } else {
             return response()->json(['message' => 'Bok hittades inte'], 404);
         }
