@@ -12,7 +12,7 @@
 
     <h2>Sök efter böcker</h2>
     <input type="text" id="searchbar" placeholder="Sök titel eller författare...">
-    <button onclick="search()">Sök</button>
+    <button id="searchBtn" onclick="search()">Sök</button>
 
     <div id="results"></div>
 
