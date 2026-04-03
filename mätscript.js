@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Exjobb
 // @description  Mätscript för laravel och express
-// @version      2026-03-28
+// @version      2026-04-03
 // @match        http://localhost:3000/*
 // @match        http://localhost:8000/*
 // @grant        none
@@ -34,7 +34,10 @@
     }
 
     const words = new Array(
-        "harry", "agatha", "gilead", "fantasy", "bleach"
+        "harry", "gilead", "bleach", "agatha", "christie", "stephen", "king", "robin", "koko",
+        "patrick", "susan", "lewis","sheldon", "sidney", "murder", "death", "house", "man", "dark",
+        "ship", "christmas", "love", "war", "lost", "fiction", "mystery", "fantasy", "history", "science",
+        "detective", "thriller", "romance", "adventure", "classic", "mesopotamia", "vastmark"
     );
 
     const maxSearches = 100;
@@ -67,7 +70,13 @@
             const start = performance.timeOrigin + performance.now();
             btn.click();
 
-            await new Promise(resolve => setTimeout(resolve, 100));
+            await new Promise(resolve => {
+                const observer = new MutationObserver(() => {
+                    observer.disconnect();
+                    resolve();
+                });
+                observer.observe(document.getElementById('results'), { childList: true });
+            });
 
             const end = performance.timeOrigin + performance.now();
             const matches = document.querySelectorAll('#results p').length;
