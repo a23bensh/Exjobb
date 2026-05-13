@@ -40,12 +40,12 @@
         "detective", "thriller", "romance", "adventure", "classic", "mesopotamia", "vastmark"
     );
 
-    const maxSearches = 100;
+    const maxSearches = 3000;
     const searchInputId = "searchbar";
     const searchButtonId = "searchBtn";
 
     let counter = 0;
-    let csvData = "word,start,end,delta,matches\n";
+    let csvData = "word,start,end,delta,latency,matches\n";
 
     function downloadCSV() {
         const blob = new Blob([csvData], { type: "text/csv" });
@@ -66,6 +66,11 @@
             Math.setSeed(counter);
             const word = words[Math.floor(Math.random() * words.length)];
 
+            const pingStart = performance.now();
+            await fetch('/ping');
+            const pingEnd = performance.now();
+            const latency = pingEnd - pingStart;
+
             input.value = word;
             const start = performance.timeOrigin + performance.now();
             btn.click();
@@ -82,9 +87,9 @@
             const matches = document.querySelectorAll('#results p').length;
             const delta = end - start;
 
-            csvData += `${word},${start},${end},${delta},${matches}\n`;
+            csvData += `${word},${start},${end},${delta},${latency},${matches}\n`;
 
-            console.log(`Klar! ${counter + 1}: ${word}`);
+            console.log(`Klar! ${counter + 1}: ${word} (Latens: ${latency.toFixed(2)}ms)`);
         }
 
         downloadCSV();

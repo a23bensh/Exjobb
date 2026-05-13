@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/ping', function () {
+    return 'latens';
+});
+
 Route::get('/startsida', function(){
     return redirect('/');
 });
